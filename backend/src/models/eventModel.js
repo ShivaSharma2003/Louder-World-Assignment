@@ -6,7 +6,7 @@ const eventSchema = new mongoose.Schema({
   link: String,
   image : String,
   description: String,
-  badge : String,
+
 });
 
 const Event = mongoose.model('Event', eventSchema);

@@ -14,10 +14,9 @@ const scrapeEvents = async () => {
       const date = $(el).find('p').eq(1).text().trim();
       const image = $(el).find('img.event-card-image').attr('src') || '';
       const description = $(el).find('div > p').last().text().trim();
-      const badge = $(el).find('.event-card-badge p').text().trim();
 
       if (title && link && date && image && description) {
-        events.push({ title, date, link, image, description, badge });
+        events.push({ title, date, link, image, description });
       }
     });
 

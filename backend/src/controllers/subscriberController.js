@@ -6,8 +6,8 @@ const subscriberController = async (req, res) => {
 
   try {
     await Subscriber.create({ email, event_link });
-    res.redirect(event_link);
   } catch (err) {
+    console.error("Error creating subscriber:", err);
     res.status(500).json({ error: err.message });
   }
 };
