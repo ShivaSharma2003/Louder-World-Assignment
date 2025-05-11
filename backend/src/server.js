@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cron = require("node-cron");
 const dotenv = require("dotenv");
 dotenv.config();
 const cors = require("cors");
@@ -23,14 +22,17 @@ app.use(
 );
 
 // MongoDB Setup
-databaseConnection.databseConnection;
+databaseConnection();
 
 // Schedule scraping every 6 hours
-cron.schedule("0 */6 * * *", scrapeEvents.scrapeEvents);
-scrapeEvents.scrapeEvents;
+setInterval(() => {
+  scrapeEvents();
+}, 6 * 60 * 60 * 1000); // 6 hours in milliseconds
+scrapeEvents();
 
 // API routes
 app.use("/v1", routes);
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

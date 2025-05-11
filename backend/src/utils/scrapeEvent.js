@@ -8,20 +8,24 @@ const scrapeEvents = async () => {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
     const events = [];
+    $('section.discover-vertical-event-card').each((i, el) => {
+      const title = $(el).find('h3').text().trim();
+      const link = $(el).find('a.event-card-link').attr('href') || '';
+      const date = $(el).find('p').eq(1).text().trim();
+      const image = $(el).find('img.event-card-image').attr('src') || '';
+      const description = $(el).find('div > p').last().text().trim();
+      const badge = $(el).find('.event-card-badge p').text().trim();
 
-    $('.search-event-card-wrapper').each((i, el) => {
-      const title = $(el).find('.eds-event-card-content__title').text().trim();
-      const link = $(el).find('a').attr('href');
-      const date = $(el).find('.eds-text-bs--fixed').first().text().trim();
-
-      if (title && link && date) {
-        events.push({ title, date, link });
+      if (title && link && date && image && description) {
+        events.push({ title, date, link, image, description, badge });
       }
     });
 
     // Clear and insert new data
     await Event.deleteMany({});
     await Event.insertMany(events);
+    console.log(`Inserted ${events.length} events into the database.`);
+    console.log('Scraping completed and data saved to the database.');
   } catch (err) {
     console.error('Scraping failed:', err);
   }
